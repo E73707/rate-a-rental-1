@@ -1,0 +1,115 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.logo-image {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.nav-menu {
+  display: flex;
+  transition: max-height 0.4s ease;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.nav-menu.expanded {
+  max-height: 200px; /* Adjust this value to accommodate the height of your nav items */
+  height: auto;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  margin-right: 10px;
+}
+
+.user-header {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  width: auto;
+  float: right;
+}
+
+.login-link {
+  margin-right: 20px;
+}
+
+.burger-icon {
+  display: none;
+  cursor: pointer;
+  position: relative;
+  height: 20px;
+  width: 25px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.burger-icon span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+  transition: all 0.3s;
+}
+
+.burger-icon.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.burger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-icon.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+@media screen and (max-width: 1120px) {
+  .burger-icon {
+    display: flex;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-item {
+    text-align: center;
+  }
+
+  .nav-link {
+    padding: 10px 0;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .name {
+    position: relative;
+    left: 50px;
+  }
+  .header-content {
+    justify-content: space-between;
+  }
+}
