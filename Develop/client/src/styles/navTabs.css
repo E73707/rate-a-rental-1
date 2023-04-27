@@ -20,7 +20,7 @@
 .nav-menu {
   display: flex;
   transition: max-height 0.4s ease;
-  overflow: hidden;
+  /* overflow: hidden; */
   max-height: 0;
 }
 
@@ -93,6 +93,7 @@
     background-color: #fff;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
   }
 
   .nav-item {

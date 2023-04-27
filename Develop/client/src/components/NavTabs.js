@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/navTabs.css";
+import Auth from "../utils/auth";
 
 function NavTabs({ currentTab, handleTabChange }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,8 +87,36 @@ function NavTabs({ currentTab, handleTabChange }) {
           </div>
         </div>
         <div className="user-header">
-          <a className="login-link">Login</a>
-          <a className="signup-link">Sign Up</a>
+          {Auth.loggedIn() ? (
+            <a className="signout-link" onClick={() => Auth.logout()}>
+              logout
+            </a>
+          ) : (
+            <>
+              <a
+                className={
+                  currentTab === "SignIn"
+                    ? "login-link nav-link active"
+                    : "login-link nav-link"
+                }
+                href="#signin"
+                onClick={() => handleTabChange("SignIn")}
+              >
+                Login
+              </a>
+              <a
+                className={
+                  currentTab === "SignUp"
+                    ? "signup-link nav-link active"
+                    : "signup-link nav-link"
+                }
+                href="#signup"
+                onClick={() => handleTabChange("SignUp")}
+              >
+                Sign Up
+              </a>
+            </>
+          )}
         </div>
       </div>
     </header>
