@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
+import "../styles/login.css";
 
 import Auth from "../utils/auth";
 
@@ -49,52 +50,49 @@ const SignupForm = () => {
       password: "",
     });
   };
+
+  const emailInUse = error?.message.includes("email");
+  const usernameInUse = error?.message.includes("username");
+
   return (
-    <>
-      {/* This is needed for the validation functionality above */}
+    <div className="form-container">
+      <h2 className="form-title">Sign Up</h2>
+
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         {/* show alert if server response is bad */}
-        <Alert
-          dismissible
-          onClose={() => setShowAlert(false)}
-          show={showAlert}
-          variant="danger"
-        >
-          Something went wrong with your signup!
-        </Alert>
-
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="username">Username</Form.Label>
+        <Form.Group className="mb-3 input-field">
           <Form.Control
             type="text"
-            placeholder="Your username"
+            placeholder="Username"
             name="username"
             onChange={handleInputChange}
             value={userFormData.username}
             required
           />
-          <Form.Control.Feedback type="invalid">
-            Username is required!
-          </Form.Control.Feedback>
         </Form.Group>
+        {showAlert && usernameInUse && (
+          <Alert className="error-alert" variant="danger">
+            Username already in use, please try again
+          </Alert>
+        )}
 
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="email">Email</Form.Label>
+        <Form.Group className="mb-3 input-field">
           <Form.Control
             type="email"
-            placeholder="Your email address"
+            placeholder="Email"
             name="email"
             onChange={handleInputChange}
             value={userFormData.email}
             required
           />
-          <Form.Control.Feedback type="invalid">
-            Email is required!
-          </Form.Control.Feedback>
         </Form.Group>
+        {showAlert && emailInUse && (
+          <Alert className="error-alert" variant="danger">
+            Email already in use, please try again
+          </Alert>
+        )}
 
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="password">Password</Form.Label>
+        <Form.Group className="mb-3 input-field">
           <Form.Control
             type="password"
             placeholder="Your password"
@@ -103,11 +101,9 @@ const SignupForm = () => {
             value={userFormData.password}
             required
           />
-          <Form.Control.Feedback type="invalid">
-            Password is required!
-          </Form.Control.Feedback>
         </Form.Group>
         <Button
+          className="submit-btn"
           disabled={
             !(
               userFormData.username &&
@@ -121,7 +117,7 @@ const SignupForm = () => {
           Submit
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 

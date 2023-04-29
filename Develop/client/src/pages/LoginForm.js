@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-
+import "../styles/login.css";
 import { LOGIN_USER } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
@@ -44,46 +44,39 @@ const LoginForm = () => {
   };
 
   return (
-    <>
+    <div className="form-container">
+      <h2 className="form-title">Login</h2>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert
-          dismissible
-          onClose={() => setShowAlert(false)}
-          show={showAlert}
-          variant="danger"
-        >
-          Something went wrong with your login credentials!
-        </Alert>
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="email">Email</Form.Label>
+        <Form.Group className="mb-3 input-field">
+          <Form.Label htmlFor="email"></Form.Label>
           <Form.Control
             type="text"
-            placeholder="Your email"
+            placeholder="Email"
             name="email"
             onChange={handleInputChange}
             value={userFormData.email}
             required
           />
-          <Form.Control.Feedback type="invalid">
-            Email is required!
-          </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="password">Password</Form.Label>
+        <Form.Group className="mb-3 input-field">
+          <Form.Label htmlFor="password"></Form.Label>
           <Form.Control
             type="password"
-            placeholder="Your password"
+            placeholder="Password"
             name="password"
             onChange={handleInputChange}
             value={userFormData.password}
             required
           />
-          <Form.Control.Feedback type="invalid">
-            Password is required!
-          </Form.Control.Feedback>
         </Form.Group>
+        {error && (
+          <Alert className="error-alert" variant="danger">
+            Incorrect username or password. Please try again.
+          </Alert>
+        )}
         <Button
+          className="submit-btn"
           disabled={!(userFormData.email && userFormData.password)}
           type="submit"
           variant="success"
@@ -91,7 +84,7 @@ const LoginForm = () => {
           Submit
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 export default LoginForm;

@@ -5,6 +5,21 @@ import Auth from "../utils/auth";
 function NavTabs({ currentTab, handleTabChange }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,7 +40,7 @@ function NavTabs({ currentTab, handleTabChange }) {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
-    <header className="page-header">
+    <header className={`page-header ${isScrolled ? "scrolled" : ""}`}>
       <div className="header-content">
         {window.innerWidth < 1120 && (
           <div
@@ -42,7 +57,15 @@ function NavTabs({ currentTab, handleTabChange }) {
           Rate a Rental
         </a>
 
-        <div className={`nav-menu ${isMenuOpen ? "open expanded" : ""}`}>
+        <div
+          className={`nav-menu ${
+            isMenuOpen
+              ? isScrolled
+                ? "open expanded scrolled"
+                : "open expanded"
+              : ""
+          }`}
+        >
           <div className="nav-item">
             <a
               href="#home"

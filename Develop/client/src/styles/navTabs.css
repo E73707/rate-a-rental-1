@@ -1,8 +1,21 @@
+body {
+  padding-top: 70px;
+  background-color: rgba(242, 244, 271, 1);
+}
+
 .page-header {
+  top: 0;
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 70px;
+  z-index: 2;
+}
+
+.page-header.scrolled {
+  background-color: white;
 }
 
 .header-content {
@@ -13,25 +26,36 @@
   position: relative;
 }
 .logo-image {
-  height: 50px;
+  height: 35px;
   margin-right: 10px;
 }
 
 .nav-menu {
   display: flex;
   transition: max-height 0.4s ease;
-  /* overflow: hidden; */
   max-height: 0;
+  align-items: center;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: black;
 }
 
 .nav-menu.expanded {
-  max-height: 200px; /* Adjust this value to accommodate the height of your nav items */
+  max-height: 400px;
   height: auto;
+  background-color: rgba(242, 244, 271, 1);
+}
+
+.nav-menu.scrolled {
+  background-color: white;
 }
 
 .name {
   display: flex;
   align-items: center;
+  padding-left: 20px;
 }
 
 .nav-link {
@@ -41,9 +65,18 @@
 .user-header {
   display: flex;
   position: relative;
-  justify-content: space-between;
-  width: auto;
+  justify-content: space-evenly;
+  width: 155px;
   float: right;
+  padding-right: 20px;
+}
+
+.user-header a {
+  padding: 5px;
+  color: black;
+  text-decoration: none !important;
+  padding-left: 10px;
+  padding-right: 0px;
 }
 
 .login-link {
@@ -58,6 +91,7 @@
   width: 25px;
   flex-direction: column;
   justify-content: space-between;
+  padding-left: 20px;
 }
 
 .burger-icon span {
@@ -66,6 +100,7 @@
   width: 100%;
   background-color: #333;
   transition: all 0.3s;
+  /* margin-left: 20px; */
 }
 
 .burger-icon.open span:nth-child(1) {
@@ -85,15 +120,27 @@
     display: flex;
   }
 
+  .login-link {
+    margin-right: 0px;
+  }
+
+  .user-header a {
+    padding-right: 0px;
+  }
+
+  .user-header {
+    width: auto;
+  }
+
   .nav-menu {
     flex-direction: column;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 70px;
     left: 0;
-    background-color: #fff;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    z-index: 3;
   }
 
   .nav-item {
@@ -108,9 +155,19 @@
 @media screen and (max-width: 750px) {
   .name {
     position: relative;
-    left: 50px;
   }
   .header-content {
-    justify-content: space-between;
+    justify-content: space-evenly;
+  }
+  .burger-icon.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .burger-icon.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger-icon.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
   }
 }
