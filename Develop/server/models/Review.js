@@ -1,6 +1,4 @@
 const { Schema, model } = require("mongoose");
-const propertySchema = require("./Property");
-const userSchema = require("./User");
 const dateFormat = require("../utils/dateFormat");
 
 const reviewSchema = new Schema({
@@ -28,8 +26,8 @@ const reviewSchema = new Schema({
       },
     },
   ],
-  author: { type: userSchema, required: true },
-  property: { type: propertySchema, required: true },
+  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  property: { type: Schema.Types.ObjectId, ref: "Property", required: true },
 });
 
-module.exports = reviewSchema;
+module.exports = model("Review", reviewSchema);

@@ -49,7 +49,7 @@ const typeDefs = gql`
     RESOLVED
   }
   type Query {
-    property(id: ID!): Property
+    property(address: String!): Property
     issue(id: ID!): Issue
     review(id: ID!): Review
     me: User
@@ -59,6 +59,7 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
+    addProperty(address: String!): Property
   }
 `;
 module.exports = typeDefs;

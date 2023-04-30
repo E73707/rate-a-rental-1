@@ -23,3 +23,11 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_PROPERTY = gql`
+  mutation addProperty($address: String!) {
+    addProperty(address: $address) {
+      address
+    }
+  }
+`;

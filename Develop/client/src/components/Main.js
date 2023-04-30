@@ -6,13 +6,16 @@ import Resume from "../pages/Resume";
 import AboutMe from "../pages/Contact";
 import SignupForm from "../pages/SignUpForm";
 import LoginForm from "../pages/LoginForm";
+import SearchResult from "../pages/SearchResult";
 
 export default function Main() {
   const [currentTab, setCurrentTab] = useState("Home");
 
+  const [searchAddress, setSearchAddress] = useState("");
+
   const render = () => {
     if (currentTab === "Home") {
-      return <Home />;
+      return <Home handleTabChange={handleTabChange} />;
     }
     if (currentTab === "Contact") {
       return <AboutMe />;
@@ -26,10 +29,18 @@ export default function Main() {
     if (currentTab === "SignIn") {
       return <LoginForm />;
     }
+    if (currentTab === "SearchResult") {
+      return <SearchResult address={searchAddress} />;
+    }
     if (currentTab === "") return <Resume />;
   };
 
-  const handleTabChange = (page) => setCurrentTab(page);
+  const handleTabChange = (page, address) => {
+    setCurrentTab(page);
+    if (address) {
+      setSearchAddress(address);
+    }
+  };
 
   return (
     <div>
