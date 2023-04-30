@@ -7,6 +7,24 @@ function NavTabs({ currentTab, handleTabChange }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const handleDocumentClick = (event) => {
+    const navMenu = event.target.closest(".nav-menu");
+    if (
+      (!event.target.closest(".burger-icon") &&
+        !event.target.closest(".nav-menu")) ||
+      (navMenu && navMenu.classList.contains("expanded"))
+    ) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleDocumentClick);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {

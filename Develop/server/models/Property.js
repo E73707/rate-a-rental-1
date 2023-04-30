@@ -4,8 +4,18 @@ const issueSchema = require("./Issue");
 
 const propertySchema = new Schema({
   address: { type: String, required: true },
-  reviews: [reviewSchema],
-  issues: [issueSchema],
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
+  issues: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Issue",
+    },
+  ],
 });
 
-module.exports = propertySchema;
+module.exports = model("Property", propertySchema);
