@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Property } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
@@ -15,6 +15,9 @@ const resolvers = {
     },
     user: async (parent, { username }) => {
       return User.findOne({ username });
+    },
+    property: async (_, { address }) => {
+      return Property.findOne({ address });
     },
   },
   Mutation: {
@@ -36,6 +39,10 @@ const resolvers = {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
+    },
+    addProperty: async (_, { address }) => {
+      const property = await Property.create({ address });
+      return property;
     },
   },
 };

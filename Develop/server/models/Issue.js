@@ -13,21 +13,17 @@ const issueSchema = new Schema({
     default: Date.now,
     get: (timestamp) => dateFormat(timestamp),
   },
-  reportedBy: { type: userSchema, required: true },
-  // POTENTIALLY USE TO STOP CONFLICTING DATA
-  //   reportedBy: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'User',
-  //     required: true
-  //   },
+  reportedBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 
-  property: { type: propertySchema, required: true },
-  // POTENTIALLY USE TO STOP CONFLICTING DATA
-  //   property: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'Property',
-  //     required: true
-  //   },
+  property: {
+    type: Schema.Types.ObjectId,
+    ref: "Property",
+    required: true,
+  },
   status: {
     type: String,
     enum: ["open", "in_progress", "resolved"],

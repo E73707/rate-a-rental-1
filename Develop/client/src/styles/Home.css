@@ -4,16 +4,24 @@
   font: roboto;
 }
 
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  z-index: 5;
+}
+
 .wrapper {
-  position: absolute;
   top: 15%;
   left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .container {
   position: relative;
   padding: 20px 50px;
+  z-index: 2;
 }
 
 .input {
@@ -80,5 +88,11 @@
   .input {
     width: auto;
     height: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .input {
+    max-width: 200px;
   }
 }
