@@ -1,20 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/modal.css";
 import Star from "./Star";
+import { useMutation } from "@apollo/client";
+import { ADD_REVIEW } from "../utils/mutations";
+import Auth from "../utils/auth";
 
-const Modal = ({ open, onClose, onSubmit }) => {
+const Modal = ({ open, onClose, onSubmit, propertyId }) => {
   const [validated, setValidated] = useState(false);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [addReview, { error, data }] = useMutation(ADD_REVIEW);
+  const [formData, setFormData] = useState(() => ({
+    propertyId: "",
+    reviewDescription: "",
+    rating: "",
+  }));
 
-  const [formData, setFormData] = useState({ description: "" });
+  useEffect(() => {
+    setFormData({ ...formData, propertyId: propertyId });
+  }, [propertyId]);
+
   if (!open) return null;
 
   const handleStarClick = (index) => {
     setRating(index);
     setFormData({ ...formData, rating: index });
   };
-
   const handleStarHover = (index) => {
     setHoverRating(index);
   };
@@ -32,17 +43,39 @@ const Modal = ({ open, onClose, onSubmit }) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
+
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      console.log("you need to login");
+      return false;
+    }
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      onSubmit(formData);
+      try {
+        const { data } = await addReview({
+          variables: {
+            ...formData,
+            propertyId,
+            rating: parseInt(formData.rating),
+          },
+        });
+        onSubmit(data.addReview);
+        onClose();
+      } catch (error) {
+        console.error("ERROR ADDING REVIEW:", error);
+        console.log("Server response:", error.networkError.result.errors);
+        console.log({ ...formData, propertyId, rating });
+      }
     }
     setValidated(true);
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, propertyId, [name]: value });
   };
 
   return (
@@ -63,7 +96,7 @@ const Modal = ({ open, onClose, onSubmit }) => {
               <textarea
                 rows={5}
                 placeholder="Description"
-                name="description"
+                name="reviewDescription"
                 onChange={handleInputChange}
                 value={formData.description}
                 required

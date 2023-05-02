@@ -11,6 +11,11 @@ const reviewSchema = new Schema({
   reviewDescription: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
+  },
   comments: [
     {
       commentText: {
@@ -27,7 +32,7 @@ const reviewSchema = new Schema({
     },
   ],
   author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  property: { type: Schema.Types.ObjectId, ref: "Property", required: true },
+  propertyId: { type: Schema.Types.ObjectId, ref: "Property", required: true },
 });
 
 module.exports = model("Review", reviewSchema);

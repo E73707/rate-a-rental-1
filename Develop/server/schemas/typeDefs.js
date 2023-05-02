@@ -24,12 +24,21 @@ const typeDefs = gql`
     issueImage: String
     landlordResponse: LandlordResponse
   }
+
+  type Comment {
+    commentText: String!
+    createdAt: String
+  }
+
   type Review {
-    id: ID!
+    id: String!
+    propertyId: ID!
     rating: Int!
-    comment: String
-    author: User!
-    property: Property!
+    reviewDescription: String
+    createdAt: String
+    updatedAt: String
+    author: User
+    comments: [Comment]
   }
 
   type LandlordResponse {
@@ -51,15 +60,18 @@ const typeDefs = gql`
   type Query {
     property(address: String!): Property
     issue(id: ID!): Issue
-    review(id: ID!): Review
     me: User
     users: [User]
     user(username: String!): User
+    review(reviewId: ID!): Review
   }
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addProperty(address: String!): Property
+    addReview(rating: Int!, reviewDescription: String, propertyId: ID!): Review
+    removeReview(reviewId: ID!): Review
+    editReview(reviewId: ID!, rating: Int, reviewDescription: String): Review
   }
 `;
 module.exports = typeDefs;

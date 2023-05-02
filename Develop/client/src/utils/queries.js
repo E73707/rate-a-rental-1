@@ -5,29 +5,20 @@ export const GET_PROPERTY = gql`
     property(address: $address) {
       address
       id
-      issues {
-        description
-        id
-        issueImage
-        landlordResponse {
-          images
-          message
-          status
-        }
-        reportedBy {
-          id
-          username
-        }
-        status
-      }
       reviews {
-        author {
-          id
-          username
-        }
         id
-        comment
+        author {
+          username
+          id
+        }
         rating
+        reviewDescription
+        createdAt
+        updatedAt
+        comments {
+          commentText
+          createdAt
+        }
       }
     }
   }
@@ -36,7 +27,7 @@ export const GET_PROPERTY = gql`
 export const GET_ME = gql`
   query GetMe {
     me {
-      _id
+      id
       username
       email
     }
