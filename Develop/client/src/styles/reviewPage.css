@@ -1,0 +1,30 @@
+.review-list-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.review-wrapper {
+  max-width: 1000px;
+  /* width: 100%; */
+}
+
+.review-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  width: auto;
+}
+
+.review-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review-card button {
+  margin-right: 5px;
+  padding: 5px;
+}
