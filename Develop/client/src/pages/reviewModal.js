@@ -4,12 +4,15 @@ import Star from "./Star";
 import { useMutation } from "@apollo/client";
 import { ADD_REVIEW } from "../utils/mutations";
 import Auth from "../utils/auth";
+import { GET_PROPERTY } from "../utils/queries";
 
-const Modal = ({ open, onClose, onSubmit, propertyId }) => {
+const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
   const [validated, setValidated] = useState(false);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [addReview, { error, data }] = useMutation(ADD_REVIEW);
+  const [addReview] = useMutation(ADD_REVIEW, {
+    refetchQueries: [{ query: GET_PROPERTY, variables: { address: address } }],
+  });
   const [formData, setFormData] = useState(() => ({
     propertyId: "",
     reviewDescription: "",

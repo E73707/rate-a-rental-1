@@ -1,8 +1,67 @@
 .review-btn {
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
+  position: relative;
   padding: 12px 24px;
+  max-width: fit-content;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.submit-review-button-wrapper {
+  text-align: center;
+}
+
+.search-result-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.search-result-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  padding: 1rem;
+  justify-content: center;
+}
+.search-result-heading-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.no-reviews-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.no-reviews-wrapper h3 {
+  padding: 20px;
+  text-align: center;
+}
+
+.no-reviews-wrapper p {
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.image-wrapper {
+  max-width: 1020px;
+}
+
+.no-reviews-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-width: 1000px;
+  min-width: 400px;
+}
+
+@media screen and (max-width: 500px) {
+  .search-result-heading {
+    font-size: 18px;
+  }
+  .search-result-wrapper {
+    padding-top: 1rem;
+  }
 }

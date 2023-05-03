@@ -3,6 +3,8 @@ import "../styles/Home.css";
 import Illustration from "./illustration";
 import { GET_PROPERTY } from "../utils/queries";
 import { ADD_PROPERTY } from "../utils/mutations";
+import PropertyNews from "./propertyNews";
+import { Autocomplete } from "@react-google-maps/api";
 import {
   BrowserRouter,
   Link,
@@ -20,6 +22,7 @@ import {
 } from "@react-google-maps/api";
 
 export default function Home({ handleTabChange }) {
+  const newsApiKey = process.env.REACT_APP_PROPERTY_NEWS_API_KEY;
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const [searchBox, setSearchBox] = useState(null);
   const [searchResult, setSearchResult] = useState("");
@@ -43,6 +46,17 @@ export default function Home({ handleTabChange }) {
     handleTabChange("SearchResult", address);
   };
 
+  const handlePlaceChanged = () => {
+    const place = autoCompleteRef.current.getPlace();
+    const address = place.address_components
+      .map((item) => item.long_name)
+      .join(", ");
+    setSearchResult(address);
+    handleTabChange("SearchResult", address);
+  };
+
+  const autoCompleteRef = useRef();
+
   return (
     <main>
       <div className="wrapper">
@@ -53,9 +67,15 @@ export default function Home({ handleTabChange }) {
               googleMapsApiKey={apiKey}
               libraries={["places"]}
             >
-              <StandaloneSearchBox
-                onLoad={(ref) => setSearchBox(ref)}
-                onPlacesChanged={handlePlacesChanged}
+              <Autocomplete
+                onLoad={(ref) => (autoCompleteRef.current = ref)}
+                onPlaceChanged={handlePlaceChanged}
+                options={{
+                  componentRestrictions: {
+                    country: "AU",
+                  },
+                  types: ["address"],
+                }}
               >
                 <input
                   type="text"
@@ -64,7 +84,7 @@ export default function Home({ handleTabChange }) {
                   onFocus={handleSearchFocus}
                   onBlur={handleSearchBlur}
                 />
-              </StandaloneSearchBox>
+              </Autocomplete>
             </LoadScript>
             <div className={`close-btn${isSearchSelected ? " active" : ""}`}>
               &times;
@@ -72,6 +92,9 @@ export default function Home({ handleTabChange }) {
           </div>
         </div>
         <Illustration />
+      </div>
+      <div className="property-news-container">
+        <PropertyNews />
       </div>
     </main>
   );

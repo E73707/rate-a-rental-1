@@ -1,7 +1,7 @@
 import React from "react";
 import ReviewCard from "./ReviewCard";
 
-const ReviewList = ({ reviews, onReviewRemoved, onReviewUpdated }) => {
+const ReviewList = ({ reviews, onReviewRemoved, onReviewUpdated, address }) => {
   return (
     <div className="review-list-wrapper">
       <div className="review-wrapper">
@@ -12,6 +12,7 @@ const ReviewList = ({ reviews, onReviewRemoved, onReviewUpdated }) => {
             index={index}
             onReviewRemoved={onReviewRemoved}
             onReviewUpdated={onReviewUpdated}
+            address={address}
           />
         ))}
       </div>

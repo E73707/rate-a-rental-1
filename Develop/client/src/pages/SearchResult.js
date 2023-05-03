@@ -64,14 +64,29 @@ const SearchResult = ({ address }) => {
     console.log("Review Submitted: ", review);
     console.log(propertyData.property.reviews);
     setPropertyReviews([...propertyReviews, review]);
-    debugger;
   };
 
   const handleReviewRemoved = (reviewId) => {
     setPropertyReviews(
       propertyReviews.filter((review) => review.id !== reviewId)
     );
-    debugger;
+  };
+
+  const formatAddress = (address) => {
+    // Split the address string into an array of components
+    const addressComponents = address.split(",");
+
+    // Check the length of the addressComponents array and format accordingly
+    if (addressComponents.length >= 6) {
+      return (
+        `${addressComponents[0]} ${addressComponents[1]}, ` +
+        `${addressComponents[2]}, ` +
+        `${addressComponents[4]}, ${addressComponents[5]}`
+      );
+    } else {
+      // If the addressComponents array has a different length, you can adjust the formatting as needed
+      return address;
+    }
   };
 
   const hasReviews =
@@ -81,44 +96,60 @@ const SearchResult = ({ address }) => {
     propertyData.property.reviews.length > 0;
 
   return (
-    <div>
-      <h1>SEARCH RESULT: {address}</h1>
-      {propertyReviews.length === 0 ? (
-        <div>
-          <p>No reviews available for this address.</p>
-          <p>
-            If you have experience with this property, please consider adding a
-            review.
-          </p>
-          <button
-            onClick={() => setOpenModal(true)}
-            className="review-btn"
-            type="submit"
-            variant="success"
-          >
-            Submit a review
-          </button>
-          <Modal
-            open={openModal}
-            propertyId={
-              propertyData && propertyData.property
-                ? propertyData.property.id
-                : null
-            }
-            onClose={() => setOpenModal(false)}
-            onSubmit={handleReviewSubmit}
-          />
-          {}
+    <div className="search-result-container">
+      <div className="search-result-wrapper">
+        <div className="search-result-heading-wrapper">
+          <h2 className="search-result-heading">{formatAddress(address)}</h2>
         </div>
-      ) : (
-        <div>
-          <p>This Property has reviews</p>
-          <ReviewList
-            reviews={propertyReviews}
-            onReviewRemoved={handleReviewRemoved}
-          />
-        </div>
-      )}
+
+        {propertyReviews.length === 0 ? (
+          <div className="no-reviews-wrapper">
+            <h3>Sorry, no reviews listed</h3>
+            <p>
+              If you have experience with this property, please consider adding
+              a review.
+            </p>
+            <div className="submit-review-button-wrapper">
+              <button
+                onClick={() => setOpenModal(true)}
+                className="review-btn"
+                type="submit"
+                variant="success"
+              >
+                Submit a review
+              </button>
+            </div>
+
+            <div className="image-wrapper">
+              <img
+                className="no-reviews-image"
+                src="/images/no-reviews.png"
+              ></img>
+            </div>
+
+            <Modal
+              open={openModal}
+              propertyId={
+                propertyData && propertyData.property
+                  ? propertyData.property.id
+                  : null
+              }
+              address={address}
+              onClose={() => setOpenModal(false)}
+              onSubmit={handleReviewSubmit}
+            />
+            {}
+          </div>
+        ) : (
+          <div>
+            <ReviewList
+              address={address}
+              reviews={propertyReviews}
+              onReviewRemoved={handleReviewRemoved}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { GET_ME } from "../utils/queries";
+import { GET_ME, GET_PROPERTY } from "../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { REMOVE_REVIEW } from "../utils/mutations";
 import EditReviewModal from "./EditReviewModal";
+import Star from "./Star";
 
-const ReviewCard = ({ review, index, onReviewRemoved, onReviewUpdated }) => {
+const ReviewCard = ({
+  review,
+  index,
+  onReviewRemoved,
+  onReviewUpdated,
+  address,
+}) => {
   const { loading, data } = useQuery(GET_ME);
   const [userData, setUserData] = useState({});
-  const [removeReview, { removeError }] = useMutation(REMOVE_REVIEW);
+  const [removeReview] = useMutation(REMOVE_REVIEW, {
+    refetchQueries: [{ query: GET_PROPERTY, variables: { address: address } }],
+  });
   const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
@@ -50,51 +59,45 @@ const ReviewCard = ({ review, index, onReviewRemoved, onReviewUpdated }) => {
     // handleModalSubmit(updatedReview); // Pass the updated review data to the parent component
   };
 
-  const convertDate = (date) => {
-    if (!review.createdAt.includes(",")) {
-      const date = new Date(date);
-
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const year = date.getFullYear();
-
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const seconds = String(date.getSeconds()).padStart(2, "0");
-
-      const ddMmYyyyHhMmSs = `${day}/${month}/${year} at ${hours}:${minutes}`;
-      return ddMmYyyyHhMmSs;
-    }
-    return date;
-  };
-
   return (
     <div className="review-card">
-      <h3>Review {index + 1}</h3>
-      <p>ID: {review.author.id}</p>
-      <p>Author: {review.author.username}</p>
-      <p>Rating: {review.rating}</p>
-      <p>Description: {review.reviewDescription}</p>
-      <p>
-        {() => {
-          convertDate(review.createdAt);
-        }}
-      </p>
-      <p>{review.updatedAt ? `Updated at: ${review.updatedAt}` : ""}</p>
-      {userData.id === review.author.id ? (
-        <div className="review-card-actions">
-          <button onClick={handleEditClick}>Edit</button>
-          <button onClick={() => handleDeleteClick(review.id)}>Delete</button>
+      <p>{review.reviewDescription}</p>
+      <p>{review.author.username}</p>
+      <div>
+        <div>
+          {Array.from({ length: 5 }, (_, index) => (
+            <Star
+              key={index}
+              index={index + 1}
+              rating={index < review.rating ? index + 1 : 0}
+            />
+          ))}
         </div>
-      ) : (
-        ""
-      )}
-      <EditReviewModal
-        review={review}
-        show={showEditModal}
-        onClose={handleModalClose}
-        onSubmit={handleModalSubmit}
-      />
+      </div>
+
+      {/* <p>{review.rating}</p> */}
+      <div className="bottom-card-row">
+        <div className="timeStamp">
+          <p className="timestamp-title">Added:</p>
+          <p>{review.createdAt}</p>
+        </div>
+
+        <p>{review.updatedAt ? `Updated at: ${review.updatedAt}` : ""}</p>
+        {userData.id === review.author.id ? (
+          <div className="review-card-actions">
+            <button onClick={handleEditClick}>Edit</button>
+            <button onClick={() => handleDeleteClick(review.id)}>Delete</button>
+          </div>
+        ) : (
+          ""
+        )}
+        <EditReviewModal
+          review={review}
+          show={showEditModal}
+          onClose={handleModalClose}
+          onSubmit={handleModalSubmit}
+        />
+      </div>
     </div>
   );
 };
