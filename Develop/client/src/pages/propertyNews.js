@@ -25,11 +25,11 @@ export default function PropertyNews() {
     if (screenWidth >= 1024) {
       setSlidesPerView(5);
     } else if (screenWidth >= 768) {
-      setSlidesPerView(4);
+      setSlidesPerView(5);
     } else if (screenWidth >= 500) {
-      setSlidesPerView(2.5);
+      setSlidesPerView(3.5);
     } else {
-      setSlidesPerView(1.75);
+      setSlidesPerView(2.2);
     }
   };
 
@@ -96,7 +96,7 @@ export default function PropertyNews() {
     <div className="property-news-wrapper">
       <div className="news-wrapper">
         <Swiper
-          spaceBetween={30}
+          spaceBetween={10}
           slidesPerView={slidesPerView}
           navigation
           pagination={{ clickable: true }}
@@ -105,16 +105,22 @@ export default function PropertyNews() {
           {newsData.map((news) => {
             return (
               <SwiperSlide>
-                <div className="news-card">
-                  <img src={news.image_url || placeholderImg} alt="News" />
-                  <h5>{news.title}</h5>
-                  {/* <p>{formatDate(news.pubDate)}</p> */}
-                  <a
-                    href={news.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  ></a>
-                </div>
+                <a
+                  className="news-card-link"
+                  href={news.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="news-card">
+                    <div className="news-card-img-wrapper">
+                      <img src={news.image_url || placeholderImg} alt="News" />
+                    </div>
+
+                    <div className="news-card-title-wrapper">
+                      <p>{news.title}</p>
+                    </div>
+                  </div>
+                </a>
               </SwiperSlide>
             );
           })}
