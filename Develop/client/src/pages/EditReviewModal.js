@@ -165,7 +165,7 @@ const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
             </div>
             <div className="invalid-form-error">
               {formInvalidWarning && (
-                <div className="login-warning">
+                <div className="form-invalid-warning">
                   Please fill in all of the required input fields
                 </div>
               )}

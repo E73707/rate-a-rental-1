@@ -21,6 +21,7 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
   }));
 
   const [formInvalidWarning, setFormInvalidWarning] = useState(false);
+  const [loginErrorWarning, setLoginErrorWarning] = useState(false);
 
   useEffect(() => {
     setFormData({ ...formData, propertyId: propertyId });
@@ -52,10 +53,16 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    let loginErrorWarning = false;
     if (!token) {
+      setLoginErrorWarning(true);
       console.log("you need to login");
-      return false;
+      loginErrorWarning = true;
+    } else {
+      setLoginErrorWarning(false);
     }
+
+    if (loginErrorWarning) return;
 
     let formInvalidWarning = false;
 
@@ -161,8 +168,15 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
             </div>
             <div className="invalid-form-error">
               {formInvalidWarning && (
-                <div className="login-warning">
+                <div className="form-invalid-warning">
                   Please fill in all of the required input fields
+                </div>
+              )}
+            </div>
+            <div className="invalid-login-error">
+              {loginErrorWarning && (
+                <div className="login-invalid-warning">
+                  Please login to add a review
                 </div>
               )}
             </div>
