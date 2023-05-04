@@ -17,7 +17,11 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
     propertyId: "",
     reviewDescription: "",
     rating: "",
+    title: "",
   }));
+
+  const [formInvalidWarning, setFormInvalidWarning] = useState(false);
+  const [loginErrorWarning, setLoginErrorWarning] = useState(false);
 
   useEffect(() => {
     setFormData({ ...formData, propertyId: propertyId });
@@ -49,30 +53,51 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    let loginErrorWarning = false;
     if (!token) {
+      setLoginErrorWarning(true);
       console.log("you need to login");
-      return false;
+      loginErrorWarning = true;
+    } else {
+      setLoginErrorWarning(false);
     }
 
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
+    if (loginErrorWarning) return;
+
+    let formInvalidWarning = false;
+
+    if (
+      formData.reviewDescription.trim() === "" ||
+      formData.title.trim() === "" ||
+      formData.rating === 0
+    ) {
+      console.log("true");
+      setFormInvalidWarning(true);
+      formInvalidWarning = true;
     } else {
-      try {
-        const { data } = await addReview({
-          variables: {
-            ...formData,
-            propertyId,
-            rating: parseInt(formData.rating),
-          },
-        });
-        onSubmit(data.addReview);
-        onClose();
-      } catch (error) {
-        console.error("ERROR ADDING REVIEW:", error);
-        console.log("Server response:", error.networkError.result.errors);
-        console.log({ ...formData, propertyId, rating });
-      }
+      console.log("false");
+      setFormInvalidWarning(false);
     }
+
+    if (formInvalidWarning) return;
+
+    try {
+      const { data } = await addReview({
+        variables: {
+          ...formData,
+          propertyId,
+          rating: parseInt(formData.rating),
+          title: formData.title,
+        },
+      });
+      onSubmit(data.addReview);
+      onClose();
+    } catch (error) {
+      console.error("ERROR ADDING REVIEW:", error);
+      console.log("Server response:", error.networkError.result.errors);
+      console.log({ ...formData, propertyId, rating });
+    }
+
     setValidated(true);
   };
 
@@ -90,12 +115,41 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
         </div>
 
         <div className="top-component">
-          <h2>Submit a review</h2>
+          <h2 className="modal-header">Submit a review</h2>
         </div>
         <div className="content">
           <form className="review-form" noValidate onSubmit={handleFormSubmit}>
+            <div className="star-wrapper">
+              <div className="rating-wrapper">
+                <p className="rating-wrapper-title">Overall rating</p>
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <Star
+                    key={index}
+                    index={index}
+                    rating={rating}
+                    hoverRating={hoverRating}
+                    onMouseEnter={() => handleStarHover(index)}
+                    onMouseLeave={handleStarMouseLeave}
+                    onClick={() => handleStarClick(index)}
+                  />
+                ))}
+                <p className="rating-wrapper-instruction">Click to rate</p>
+              </div>
+            </div>
+            <div className="title-wrapper">
+              <p className="title-wrapper-header">Title</p>
+              <input
+                type="text"
+                placeholder="Title"
+                name="title"
+                onChange={handleInputChange}
+                value={formData.title}
+                required
+              />
+              <div className="invalid-feedback"></div>
+            </div>
             <div className="description-wrapper">
-              <label htmlFor="Description"></label>
+              <p className="description-wrapper-header">Description</p>
               <textarea
                 rows={5}
                 placeholder="Description"
@@ -106,23 +160,25 @@ const Modal = ({ open, onClose, onSubmit, propertyId, address }) => {
               ></textarea>
               <div className="invalid-feedback"></div>
             </div>
-            <div className="star-wrapper">
-              {[1, 2, 3, 4, 5].map((index) => (
-                <Star
-                  key={index}
-                  index={index}
-                  rating={rating}
-                  hoverRating={hoverRating}
-                  onMouseEnter={() => handleStarHover(index)}
-                  onMouseLeave={handleStarMouseLeave}
-                  onClick={() => handleStarClick(index)}
-                />
-              ))}
-            </div>
+
             <div className="review-submit-btn-wrapper">
               <button className="review-submit-btn" type="submit">
                 Submit
               </button>
+            </div>
+            <div className="invalid-form-error">
+              {formInvalidWarning && (
+                <div className="form-invalid-warning">
+                  Please fill in all of the required input fields
+                </div>
+              )}
+            </div>
+            <div className="invalid-login-error">
+              {loginErrorWarning && (
+                <div className="login-invalid-warning">
+                  Please login to add a review
+                </div>
+              )}
             </div>
           </form>
         </div>

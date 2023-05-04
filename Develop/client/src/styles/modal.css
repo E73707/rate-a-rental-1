@@ -12,15 +12,30 @@
 .top-component {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   text-align: center;
-  padding: 5px 0px 20px;
   cursor: default;
 }
 
+.rating-wrapper-title {
+  font-weight: 600;
+  text-align: left;
+  font-size: 13px;
+  padding-bottom: 4px;
+}
+
+.rating-wrapper-instruction {
+  font-weight: 400;
+  font-size: 11px;
+  padding-top: 4px;
+}
+.modal-header {
+  font-size: 20px;
+}
+
 .modalContainer {
-  padding: 20px;
-  max-width: 600px;
+  padding: 30px;
+  /* max-width: 600px; */
   width: 100%;
   position: fixed;
   top: 40%;
@@ -32,40 +47,35 @@
   box-shadow: 0px 0px 18px 0px rgba(0, 0, 0, 0.75);
   border-radius: 20px;
   cursor: default;
+  max-width: 300px;
 }
 
 .content {
   width: 100%;
-  justify-content: center;
-  padding: 20px 0px 0px 0px;
+  justify-content: left;
 }
 
 .description-wrapper {
   width: 100%;
 }
 
+.description-wrapper-header {
+  font-weight: 600;
+  text-align: left;
+  font-size: 13px;
+  padding-bottom: 4px;
+}
+
 textarea {
   resize: none;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 textarea::placeholder {
   text-align: center;
   align-items: center;
   padding: 30px;
-}
-
-@media screen and (max-width: 750px) {
-  .modalContainer {
-    max-width: 400px;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .modalContainer {
-    max-width: 300px;
-  }
 }
 
 .close-container {
@@ -98,10 +108,8 @@ textarea::placeholder {
 
 label {
   color: white;
-  font-family: Helvetica, Arial, sans-serif;
   font-size: 0.6em;
   text-transform: uppercase;
-  letter-spacing: 2px;
   transition: all 0.3s ease-in;
   opacity: 0;
 }
@@ -118,23 +126,77 @@ label {
   opacity: 1;
 }
 
-.review-form {
-  text-align: center;
-}
-
 .review-submit-btn {
   padding: 10px;
-  background-color: black;
+  background-color: rgba(112, 127, 143, 1);
   color: white;
-  border-radius: 15px;
   border-style: none;
   cursor: pointer;
+  border-radius: 4px;
 }
 .review-submit-btn-wrapper {
-  padding: 20px;
+  padding: 20px 20px 20px 0px;
 }
 .star-wrapper {
   display: flex;
-  justify-content: center;
   margin: 1rem 0;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 15px;
+}
+
+.title-wrapper input {
+  display: flex;
+  max-width: 100px;
+  text-align: left;
+  padding: 5px;
+}
+
+.title-wrapper-header {
+  font-weight: 600;
+  text-align: left;
+  font-size: 13px;
+  padding-bottom: 4px;
+}
+
+.title-input {
+  font-size: 12px;
+  letter-spacing: 0px;
+  border-radius: 4px;
+  border-width: 1.5px;
+}
+
+input::-webkit-input-placeholder {
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0px;
+  color: darkgray;
+}
+
+input:-ms-input-placeholder {
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0px;
+  color: darkgray;
+}
+input::-moz-placeholder {
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0px;
+  color: darkgray;
+}
+
+input::placeholder {
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0px;
+  color: darkgray;
+}
+.form-invalid-warning {
+  color: red;
+  font-weight: 600;
+}
+
+.login-invalid-warning {
+  color: red;
+  font-weight: 600;
 }

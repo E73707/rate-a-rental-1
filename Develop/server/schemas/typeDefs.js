@@ -33,6 +33,7 @@ const typeDefs = gql`
   type Review {
     id: String!
     propertyId: ID!
+    title: String!
     rating: Int!
     reviewDescription: String
     createdAt: String
@@ -69,9 +70,19 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addProperty(address: String!): Property
-    addReview(rating: Int!, reviewDescription: String, propertyId: ID!): Review
+    addReview(
+      rating: Int!
+      title: String!
+      reviewDescription: String
+      propertyId: ID!
+    ): Review
     removeReview(reviewId: ID!): Review
-    editReview(reviewId: ID!, rating: Int, reviewDescription: String): Review
+    editReview(
+      reviewId: ID!
+      rating: Int
+      title: String
+      reviewDescription: String
+    ): Review
   }
 `;
 module.exports = typeDefs;
