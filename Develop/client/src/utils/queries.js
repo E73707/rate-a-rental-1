@@ -11,6 +11,7 @@ export const GET_PROPERTY = gql`
           username
           id
         }
+        title
         rating
         reviewDescription
         createdAt

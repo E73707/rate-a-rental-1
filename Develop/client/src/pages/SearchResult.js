@@ -104,8 +104,10 @@ const SearchResult = ({ address }) => {
 
         {propertyReviews.length === 0 ? (
           <div className="no-reviews-wrapper">
-            <h3>Sorry, no reviews listed</h3>
-            <p>
+            <h3 className="no-reviews-wrapper-heading">
+              Sorry, no reviews listed
+            </h3>
+            <p className="no-reviews-wrapper-text">
               If you have experience with this property, please consider adding
               a review.
             </p>

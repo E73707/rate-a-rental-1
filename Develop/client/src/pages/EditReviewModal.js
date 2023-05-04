@@ -3,6 +3,7 @@ import Star from "./Star";
 import { ADD_REVIEW } from "../utils/mutations";
 import { EDIT_REVIEW } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth";
 
 const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
   const [editReview, { error }] = useMutation(EDIT_REVIEW);
@@ -10,16 +11,21 @@ const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
     reviewDescription: review.reviewDescription,
     reviewId: review.id,
     rating: review.rating,
+    title: review.title,
   });
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(review.rating);
   const [hoverRating, setHoverRating] = useState(0);
+
+  const [formInvalidWarning, setFormInvalidWarning] = useState(false);
 
   useEffect(() => {
     setFormData({
       reviewDescription: review.reviewDescription,
       reviewId: review.id,
+      title: review.title,
     });
+    setRating(review.rating);
   }, [review]);
 
   const handleInputChange = (event) => {
@@ -31,6 +37,30 @@ const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      console.log("you need to login");
+      return false;
+    }
+
+    let formInvalidWarning = false;
+
+    if (
+      formData.reviewDescription.trim() === "" ||
+      formData.title.trim() === "" ||
+      formData.rating === 0
+    ) {
+      console.log("true");
+      setFormInvalidWarning(true);
+      formInvalidWarning = true;
+    } else {
+      console.log("false");
+      setFormInvalidWarning(false);
+    }
+
+    if (formInvalidWarning) return;
+
     try {
       const { data } = await editReview({
         variables: {
@@ -39,10 +69,12 @@ const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
       });
       console.log(data);
       onSubmit(data.editReview);
+      setFormInvalidWarning(false);
     } catch (error) {
       console.error("ERROR EDITING REVIEW: ", error);
       console.log("Server response:", error.networkError.result.errors);
     }
+
     console.log(formData);
     onClose();
   };
@@ -79,12 +111,42 @@ const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
         </div>
 
         <div className="top-component">
-          <h2>Edit a review</h2>
+          <h2 className="modal-header">Edit a review</h2>
         </div>
         <div className="content">
           <form className="review-form" noValidate onSubmit={handleFormSubmit}>
+            <div className="star-wrapper">
+              <div className="rating-wrapper">
+                <p className="rating-wrapper-title">Overall rating</p>
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <Star
+                    key={index}
+                    index={index}
+                    rating={rating}
+                    hoverRating={hoverRating}
+                    onMouseEnter={() => handleStarHover(index)}
+                    onMouseLeave={handleStarMouseLeave}
+                    onClick={() => handleStarClick(index)}
+                  />
+                ))}
+                <p className="rating-wrapper-instruction">Click to rate</p>
+              </div>
+            </div>
+            <div className="title-wrapper">
+              <p className="title-wrapper-header">Title</p>
+              <input
+                type="text"
+                placeholder={review.title}
+                name="title"
+                onChange={handleInputChange}
+                value={formData.title}
+                required
+                className="title-input"
+              />
+              <div className="invalid-feedback"></div>
+            </div>
             <div className="description-wrapper">
-              <label htmlFor="Description"></label>
+              <p className="description-wrapper-header">Description</p>
               <textarea
                 rows={5}
                 placeholder={review.reviewDescription}
@@ -95,23 +157,18 @@ const EditReviewModal = ({ review, show, onClose, onSubmit }) => {
               ></textarea>
               <div className="invalid-feedback"></div>
             </div>
-            <div className="star-wrapper">
-              {[1, 2, 3, 4, 5].map((index) => (
-                <Star
-                  key={index}
-                  index={index}
-                  rating={rating}
-                  hoverRating={hoverRating}
-                  onMouseEnter={() => handleStarHover(index)}
-                  onMouseLeave={handleStarMouseLeave}
-                  onClick={() => handleStarClick(index)}
-                />
-              ))}
-            </div>
+
             <div className="review-submit-btn-wrapper">
               <button className="review-submit-btn" type="submit">
-                Submit
+                Edit review
               </button>
+            </div>
+            <div className="invalid-form-error">
+              {formInvalidWarning && (
+                <div className="login-warning">
+                  Please fill in all of the required input fields
+                </div>
+              )}
             </div>
           </form>
         </div>

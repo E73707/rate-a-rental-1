@@ -38,17 +38,20 @@ export const ADD_REVIEW = gql`
     $rating: Int!
     $propertyId: ID!
     $reviewDescription: String!
+    $title: String!
   ) {
     addReview(
       rating: $rating
       propertyId: $propertyId
       reviewDescription: $reviewDescription
+      title: $title
     ) {
       propertyId
       author {
         id
         username
       }
+      title
       reviewDescription
       rating
       id
@@ -63,6 +66,7 @@ export const REMOVE_REVIEW = gql`
     removeReview(reviewId: $reviewId) {
       id
       propertyId
+      title
       rating
       reviewDescription
       createdAt
@@ -75,15 +79,18 @@ export const EDIT_REVIEW = gql`
   mutation editReview(
     $reviewId: ID!
     $rating: Int
+    $title: String
     $reviewDescription: String
   ) {
     editReview(
       reviewId: $reviewId
       rating: $rating
+      title: $title
       reviewDescription: $reviewDescription
     ) {
       id
       rating
+      title
       propertyId
       reviewDescription
       updatedAt

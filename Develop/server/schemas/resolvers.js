@@ -58,12 +58,13 @@ const resolvers = {
     },
     addReview: async (
       parent,
-      { rating, reviewDescription, propertyId },
+      { rating, reviewDescription, propertyId, title },
       context
     ) => {
       if (context.user) {
         const newReview = await Review.create({
           rating,
+          title,
           reviewDescription,
           author: context.user._id,
           propertyId: propertyId,
@@ -119,7 +120,7 @@ const resolvers = {
 
     editReview: async (
       parent,
-      { reviewId, rating, reviewDescription },
+      { reviewId, rating, title, reviewDescription },
       context
     ) => {
       // Check if user is logged in
@@ -130,7 +131,7 @@ const resolvers = {
       // Find the review and update it
       const review = await Review.findByIdAndUpdate(
         reviewId,
-        { rating, reviewDescription },
+        { rating, title, reviewDescription },
         { new: true, omitUndefined: true }
       );
 

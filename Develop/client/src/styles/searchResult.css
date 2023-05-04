@@ -35,12 +35,12 @@
   flex-direction: column;
 }
 
-.no-reviews-wrapper h3 {
+.no-reviews-wrapper-heading {
   padding: 20px;
   text-align: center;
 }
 
-.no-reviews-wrapper p {
+.no-reviews-wrapper-text {
   padding-bottom: 20px;
   text-align: center;
 }

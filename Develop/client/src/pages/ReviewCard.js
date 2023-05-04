@@ -61,6 +61,7 @@ const ReviewCard = ({
 
   return (
     <div className="review-card">
+      <h4>{review.title}</h4>
       <p>{review.reviewDescription}</p>
       <p>{review.author.username}</p>
       <div>
@@ -74,8 +75,6 @@ const ReviewCard = ({
           ))}
         </div>
       </div>
-
-      {/* <p>{review.rating}</p> */}
       <div className="bottom-card-row">
         <div className="timeStamp">
           <p className="timestamp-title">Added:</p>
@@ -85,8 +84,15 @@ const ReviewCard = ({
         <p>{review.updatedAt ? `Updated at: ${review.updatedAt}` : ""}</p>
         {userData.id === review.author.id ? (
           <div className="review-card-actions">
-            <button onClick={handleEditClick}>Edit</button>
-            <button onClick={() => handleDeleteClick(review.id)}>Delete</button>
+            <button className="review-card-btn" onClick={handleEditClick}>
+              Edit
+            </button>
+            <button
+              className="review-card-btn"
+              onClick={() => handleDeleteClick(review.id)}
+            >
+              Delete
+            </button>
           </div>
         ) : (
           ""
