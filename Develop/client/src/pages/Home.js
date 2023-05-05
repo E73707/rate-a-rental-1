@@ -18,7 +18,7 @@ import SearchResult from "./SearchResult";
 import {
   GoogleMap,
   StandaloneSearchBox,
-  LoadScript,
+  LoadScriptNext as LoadScript,
 } from "@react-google-maps/api";
 
 export default function Home({ handleTabChange }) {

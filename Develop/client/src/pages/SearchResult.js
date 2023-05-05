@@ -7,7 +7,7 @@ import Modal from "./reviewModal";
 import ReviewList from "./ReviewList";
 import "../styles/reviewPage.css";
 import { GET_ME } from "../utils/queries";
-
+import ReviewWrapup from "./ReviewWrapup";
 const SearchResult = ({ address }) => {
   const [addProperty, { addError }] = useMutation(ADD_PROPERTY);
   const { loading, data } = useQuery(GET_PROPERTY, { variables: { address } });
@@ -144,6 +144,31 @@ const SearchResult = ({ address }) => {
           </div>
         ) : (
           <div>
+            <div className="RW-container">
+              <ReviewWrapup reviews={propertyReviews} />
+              <div className="submit-review-button-wrapper">
+                <button
+                  onClick={() => setOpenModal(true)}
+                  className="review-btn"
+                  type="submit"
+                  variant="success"
+                >
+                  Submit a review
+                </button>
+              </div>
+            </div>
+
+            <Modal
+              open={openModal}
+              propertyId={
+                propertyData && propertyData.property
+                  ? propertyData.property.id
+                  : null
+              }
+              address={address}
+              onClose={() => setOpenModal(false)}
+              onSubmit={handleReviewSubmit}
+            />
             <ReviewList
               address={address}
               reviews={propertyReviews}

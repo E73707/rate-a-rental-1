@@ -8,6 +8,7 @@ const Star = ({
   onMouseEnter,
   onMouseLeave,
   onClick,
+  width,
 }) => {
   const fill = React.useMemo(() => {
     if (hoverRating >= index) {
@@ -20,8 +21,8 @@ const Star = ({
 
   return (
     <svg
-      width="20"
-      height="20"
+      width={width ? width : 20}
+      height={width ? width : 20}
       viewBox="0 0 50 50"
       fill={fill}
       stroke="#708090"
