@@ -21,13 +21,36 @@
   max-width: 1000px;
   padding: 1rem;
   justify-content: center;
+  align-items: center;
 }
 .search-result-heading-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px;
+  flex-direction: column;
+  text-align: center;
+}
+.claim-property-button-wrapper {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: row;
 }
 
+.claim-property-button {
+  padding: 5px;
+  background-color: rgba(112, 127, 143, 1);
+  color: white;
+  border-style: none;
+  cursor: pointer;
+  border-radius: 4px;
+  max-width: fit-content;
+  margin-left: 10px;
+}
 .no-reviews-wrapper {
   width: 100%;
   display: flex;
@@ -43,6 +66,7 @@
 .no-reviews-wrapper-text {
   padding-bottom: 20px;
   text-align: center;
+  margin-top: 10px;
 }
 
 .image-wrapper {

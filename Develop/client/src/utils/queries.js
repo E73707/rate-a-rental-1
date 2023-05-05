@@ -34,3 +34,29 @@ export const GET_ME = gql`
     }
   }
 `;
+
+export const GET_CURRENT_ADMIN = gql`
+  query GetCurrentAdmin {
+    getCurrentAdmin {
+      id
+    }
+  }
+`;
+
+export const GET_TODOS = gql`
+  query todos {
+    todos {
+      authoriseQueue {
+        dateOfSubmission
+        email
+        file
+        fullName
+        id
+        phone
+        propertyId
+        userId
+      }
+      todoList
+    }
+  }
+`;

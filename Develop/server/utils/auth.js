@@ -20,9 +20,14 @@ module.exports = {
     }
 
     // verify token and get user data out of it
+    // verify token and get user data out of it
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      req.user = data;
+      if (data.role === "admin") {
+        req.admin = data;
+      } else {
+        req.user = data;
+      }
     } catch {
       console.log("Invalid token");
     }
@@ -30,9 +35,8 @@ module.exports = {
     return req;
     // send to next endpoint;
   },
-  signToken: function ({ username, email, _id }) {
-    const payload = { username, email, _id };
-
+  signToken: function ({ username, email, _id, role }) {
+    const payload = { username, email, _id, role };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };

@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import "../styles/navTabs.css";
 import Auth from "../utils/auth";
+import { GET_CURRENT_ADMIN } from "../utils/queries";
 
 function NavTabs({ currentTab, handleTabChange }) {
+  const [currentAdmin, setCurrentAdmin] = useState({});
+  const {
+    loading: adminLoading,
+    error: adminError,
+    data: adminData,
+  } = useQuery(GET_CURRENT_ADMIN);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,6 +26,16 @@ function NavTabs({ currentTab, handleTabChange }) {
       setIsMenuOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (adminData) {
+      setCurrentAdmin(adminData.getCurrentAdmin);
+    }
+    if (!adminData) {
+      console.log("No admin data");
+    }
+    console.log(adminData);
+  }, [adminData]);
 
   useEffect(() => {
     document.addEventListener("click", handleDocumentClick);
@@ -115,17 +134,21 @@ function NavTabs({ currentTab, handleTabChange }) {
               Portfolio
             </a>
           </div>
-          <div className="nav-item">
-            <a
-              href="#resume"
-              onClick={() => handleTabChange("Resume")}
-              className={
-                currentTab === "Resume" ? "nav-link active" : "nav-link"
-              }
-            >
-              Resume
-            </a>
-          </div>
+          {adminData ? (
+            <div className="nav-item">
+              <a
+                href="#Todo"
+                onClick={() => handleTabChange("Todo")}
+                className={
+                  currentTab === "Todo" ? "nav-link active" : "nav-link"
+                }
+              >
+                Todo List
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="user-header">
           {Auth.loggedIn() ? (

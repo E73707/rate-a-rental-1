@@ -1,0 +1,48 @@
+.Todo-list-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Todo-list-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Todo-list-header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Todo-list-h {
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+.Todo-list-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Todo-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Todo-list-number {
+  width: auto;
+  text-align: center;
+}

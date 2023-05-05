@@ -33,8 +33,16 @@ const LoginForm = () => {
       if (!data) {
         throw new Error("something went wrong!");
       }
-      const { token, user } = data.login;
-      Auth.login(token);
+
+      if (data.login.admin) {
+        console.log("admin login");
+        const { token, admin } = data.login;
+        Auth.login(token, "admin");
+      } else {
+        console.log("user login");
+        const { token, user } = data.login;
+        Auth.login(token);
+      }
     } catch (err) {
       console.error(err);
       setShowAlert(true);
@@ -75,6 +83,7 @@ const LoginForm = () => {
             Incorrect username or password. Please try again.
           </Alert>
         )}
+
         <Button
           className="submit-btn"
           disabled={!(userFormData.email && userFormData.password)}

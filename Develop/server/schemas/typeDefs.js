@@ -9,6 +9,13 @@ const typeDefs = gql`
     reviews: [Review]
     properties: [Property]
   }
+  type Admin {
+    id: ID!
+    username: String!
+    password: String!
+    todos: Todo
+    email: String!
+  }
   type Property {
     id: ID!
     address: String!
@@ -51,12 +58,28 @@ const typeDefs = gql`
   type Auth {
     token: ID!
     user: User
+    admin: Admin
   }
 
   enum IssueStatus {
     OPEN
     IN_PROGRESS
     RESOLVED
+  }
+  type AuthoriseQueue {
+    id: ID!
+    fullName: String!
+    email: String!
+    phone: String!
+    file: String!
+    userId: String!
+    propertyId: String!
+    dateOfSubmission: String!
+  }
+  type Todo {
+    id: ID!
+    authoriseQueue: [AuthoriseQueue!]!
+    todoList: [String!]!
   }
   type Query {
     property(address: String!): Property
@@ -65,10 +88,14 @@ const typeDefs = gql`
     users: [User]
     user(username: String!): User
     review(reviewId: ID!): Review
+    getCurrentAdmin: Admin
+    todos: Todo
   }
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
+    addAdmin(username: String!, email: String!, password: String!): Auth
+    loginAdmin(email: String!, password: String!): Auth
     addProperty(address: String!): Property
     addReview(
       rating: Int!
@@ -83,6 +110,14 @@ const typeDefs = gql`
       title: String
       reviewDescription: String
     ): Review
+    addAuthoriseQueue(
+      fullName: String!
+      email: String!
+      phone: String!
+      file: String!
+      userId: String!
+      propertyId: String!
+    ): AuthoriseQueue
   }
 `;
 module.exports = typeDefs;

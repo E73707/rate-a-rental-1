@@ -1,12 +1,16 @@
 import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
+  mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
       user {
         id
-        username
+        email
+      }
+      admin {
+        id
+        email
       }
     }
   }
@@ -94,6 +98,34 @@ export const EDIT_REVIEW = gql`
       propertyId
       reviewDescription
       updatedAt
+    }
+  }
+`;
+
+export const ADD_AUTHORISE_QUEUE = gql`
+  mutation addAuthoriseQueue(
+    $fullName: String!
+    $email: String!
+    $phone: String!
+    $file: String!
+    $userId: String!
+    $propertyId: String!
+  ) {
+    addAuthoriseQueue(
+      fullName: $fullName
+      email: $email
+      phone: $phone
+      file: $file
+      userId: $userId
+      propertyId: $propertyId
+    ) {
+      dateOfSubmission
+      file
+      email
+      fullName
+      phone
+      propertyId
+      userId
     }
   }
 `;

@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3001",
   "dependencies": {
     "@apollo/client": "^3.7.12",
+    "@azure/storage-blob": "^12.14.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-google-maps/api": "^2.18.1",
@@ -18,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.1",
-    "swiper": "^9.2.4"
+    "swiper": "^9.2.4",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

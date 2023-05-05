@@ -8,7 +8,7 @@ import ReviewList from "./ReviewList";
 import "../styles/reviewPage.css";
 import { GET_ME } from "../utils/queries";
 import ReviewWrapup from "./ReviewWrapup";
-const SearchResult = ({ address }) => {
+const SearchResult = ({ address, handleTabChange }) => {
   const [addProperty, { addError }] = useMutation(ADD_PROPERTY);
   const { loading, data } = useQuery(GET_PROPERTY, { variables: { address } });
   const [propertyData, setPropertyData] = useState(null);
@@ -100,6 +100,19 @@ const SearchResult = ({ address }) => {
       <div className="search-result-wrapper">
         <div className="search-result-heading-wrapper">
           <h2 className="search-result-heading">{formatAddress(address)}</h2>
+          <div className="claim-property-button-wrapper">
+            <p className="claim-property-text">
+              Do you own this property? Consider claiming.
+            </p>
+            <button
+              onClick={() =>
+                handleTabChange("ClaimPropertyTab", null, propertyData)
+              }
+              className="claim-property-button"
+            >
+              Claim property
+            </button>
+          </div>
         </div>
 
         {propertyReviews.length === 0 ? (
