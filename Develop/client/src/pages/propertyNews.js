@@ -113,7 +113,10 @@ export default function PropertyNews() {
                 >
                   <div className="news-card">
                     <div className="news-card-img-wrapper">
-                      <img src={news.image_url || placeholderImg} alt="News" />
+                      <img
+                        src={news.image_url ? news.image_url : placeholderImg}
+                        alt="News"
+                      />
                     </div>
 
                     <div className="news-card-title-wrapper">

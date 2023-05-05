@@ -126,6 +126,15 @@ label {
   opacity: 1;
 }
 
+.review-btn {
+  padding: 10px;
+  background-color: rgba(112, 127, 143, 1);
+  color: white;
+  border-style: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 .review-submit-btn {
   padding: 10px;
   background-color: rgba(112, 127, 143, 1);

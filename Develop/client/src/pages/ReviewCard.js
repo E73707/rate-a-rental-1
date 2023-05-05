@@ -4,6 +4,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { REMOVE_REVIEW } from "../utils/mutations";
 import EditReviewModal from "./EditReviewModal";
 import Star from "./Star";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const ReviewCard = ({
   review,
@@ -61,36 +63,47 @@ const ReviewCard = ({
 
   return (
     <div className="review-card">
-      <h4>{review.title}</h4>
-      <p>{review.reviewDescription}</p>
-      <p>{review.author.username}</p>
-      <div>
+      <div className="review-card-header">
         <div>
-          {Array.from({ length: 5 }, (_, index) => (
-            <Star
-              key={index}
-              index={index + 1}
-              rating={index < review.rating ? index + 1 : 0}
-            />
-          ))}
+          <div>
+            {Array.from({ length: 5 }, (_, index) => (
+              <Star
+                key={index}
+                index={index + 1}
+                rating={index < review.rating ? index + 1 : 0}
+                width={15}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="bottom-card-row">
         <div className="timeStamp">
           <p className="timestamp-title">Added:</p>
-          <p>{review.createdAt}</p>
+          <p className="timestamp-time">{review.createdAt}</p>
         </div>
+      </div>
+      <div className="review-card-title-wrapper">
+        <h4 className="review-card-title">{review.title}</h4>
+        <div className="author-username-wrapper">
+          <p className="author-username-title">Reviewed by: </p>
+          <p className="author-username"> {review.author.username}</p>
+        </div>
+      </div>
 
+      <p>{review.reviewDescription}</p>
+
+      <div className="bottom-card-row">
         <p>{review.updatedAt ? `Updated at: ${review.updatedAt}` : ""}</p>
         {userData.id === review.author.id ? (
           <div className="review-card-actions">
             <button className="review-card-btn" onClick={handleEditClick}>
+              <FontAwesomeIcon icon={faEdit} className="icon" />
               Edit
             </button>
             <button
               className="review-card-btn"
               onClick={() => handleDeleteClick(review.id)}
             >
+              <FontAwesomeIcon icon={faTrashAlt} className="icon" />
               Delete
             </button>
           </div>
