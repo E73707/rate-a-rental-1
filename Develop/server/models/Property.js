@@ -14,6 +14,10 @@ const propertySchema = new Schema({
       ref: "Issue",
     },
   ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = model("Property", propertySchema);

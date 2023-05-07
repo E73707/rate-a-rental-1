@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_AUTHORISE_QUEUE } from "../utils/queries";
+import { useMutation } from "@apollo/client";
+import { ADD_OWNER } from "../utils/mutations";
 
 import "../styles/todo.css";
 
@@ -8,6 +10,7 @@ export default function Todo() {
   const { loading, data } = useQuery(GET_AUTHORISE_QUEUE);
   const [authoriseData, setAuthoriseData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [addOwner] = useMutation(ADD_OWNER);
 
   useEffect(() => {
     if (data) {
@@ -24,6 +27,25 @@ export default function Todo() {
       item.fullName.toLowerCase().includes(searchValue.toLowerCase()) ||
       item.userId.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  const handleApprove = async (e) => {
+    const userId = e.currentTarget.getAttribute("data-userid");
+    const propertyId = e.currentTarget.getAttribute("data-propertyid");
+    console.log("User ID:", userId, "Property ID:", propertyId);
+
+    try {
+      const { data } = await addOwner({
+        variables: {
+          userId: userId,
+          propertyId: propertyId,
+        },
+      });
+
+      console.log("Mutation result:", data);
+    } catch (err) {
+      console.error("Error executing mutation:", err.message);
+    }
+  };
 
   return (
     <div className="Todo-list-container">
@@ -57,7 +79,14 @@ export default function Todo() {
                 </a>
 
                 <div className="todo-list-card-button-wrapper">
-                  <button className="todo-list-card-button">Approve</button>
+                  <button
+                    data-userid={item.userId}
+                    data-propertyid={item.propertyId}
+                    className="todo-list-card-button"
+                    onClick={handleApprove}
+                  >
+                    Approve
+                  </button>
 
                   <button className="todo-list-card-button">Reject</button>
                 </div>

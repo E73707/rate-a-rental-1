@@ -1,25 +1,38 @@
 import { gql } from "@apollo/client";
 
 export const GET_PROPERTY = gql`
-  query GetProperty($address: String!) {
+  query Query($address: String!) {
     property(address: $address) {
       address
       id
-      reviews {
+      owner {
         id
+        username
+      }
+      reviews {
         author {
           username
           id
         }
-        title
+        createdAt
+        id
         rating
         reviewDescription
-        createdAt
-        updatedAt
-        comments {
-          commentText
-          createdAt
+        title
+      }
+      issues {
+        description
+        id
+        issueImage
+        landLordResponse {
+          images
+          message
         }
+        propertyId
+        reportedBy {
+          id
+        }
+        title
       }
     }
   }

@@ -20,15 +20,16 @@ const typeDefs = gql`
     address: String!
     reviews: [Review]
     issues: [Issue]
+    owner: User
   }
   type Issue {
     id: ID!
     description: String!
+    title: String!
     reportedBy: User!
-    property: Property!
-    status: IssueStatus!
-    issueImage: String
-    landlordResponse: LandlordResponse
+    propertyId: ID!
+    issueImage: String!
+    landLordResponse: LandlordResponse
   }
 
   type Comment {
@@ -49,7 +50,11 @@ const typeDefs = gql`
   }
 
   type LandlordResponse {
-    status: IssueStatus!
+    images: [String]
+    message: String
+  }
+
+  input LandlordResponseInput {
     images: [String]
     message: String
   }
@@ -77,6 +82,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    properties: [Property]
     property(address: String!): Property
     issue(id: ID!): Issue
     me: User
@@ -114,6 +120,16 @@ const typeDefs = gql`
       propertyId: String!
     ): AuthoriseQueue
     deleteAuthoriseQueue(id: ID!): AuthoriseQueue
+    addOwner(propertyId: ID!, userId: ID!): Property
+    addIssue(
+      propertyId: ID!
+      title: String!
+      description: String!
+      userId: ID!
+      issueImage: String!
+    ): Issue
+    deleteAllIssues: String
+    addLandlordResponse(issueId: ID!, response: LandlordResponseInput!): Issue
   }
 `;
 module.exports = typeDefs;

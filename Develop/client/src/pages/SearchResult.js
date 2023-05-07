@@ -8,14 +8,32 @@ import ReviewList from "./ReviewList";
 import "../styles/reviewPage.css";
 import { GET_ME } from "../utils/queries";
 import ReviewWrapup from "./ReviewWrapup";
+import IssueList from "./IssueList";
+import IssueModal from "./IssueModal";
+
 const SearchResult = ({ address, handleTabChange }) => {
   const [addProperty, { addError }] = useMutation(ADD_PROPERTY);
-  const { loading, data } = useQuery(GET_PROPERTY, { variables: { address } });
+  const { loading, data, error } = useQuery(GET_PROPERTY, {
+    variables: { address },
+  });
   const [propertyData, setPropertyData] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openIssueModal, setOpenIssueModal] = useState(false);
   const { loadingME, dataME } = useQuery(GET_ME);
   const [userData, setUserData] = useState({});
   const [propertyReviews, setPropertyReviews] = useState([]);
+
+  console.log(address);
+
+  useEffect(() => {
+    if (error) {
+      console.error("Error fetching property:", error);
+      console.error("Network Error:", error.networkError);
+      console.error("GraphQL Errors:", error.graphQLErrors);
+    }
+  }, [error]);
+
+  console.log("Data received:", data);
 
   useEffect(() => {
     if (
@@ -101,17 +119,32 @@ const SearchResult = ({ address, handleTabChange }) => {
         <div className="search-result-heading-wrapper">
           <h2 className="search-result-heading">{formatAddress(address)}</h2>
           <div className="claim-property-button-wrapper">
-            <p className="claim-property-text">
-              Do you own this property? Consider claiming.
-            </p>
-            <button
-              onClick={() =>
-                handleTabChange("ClaimPropertyTab", null, propertyData)
-              }
-              className="claim-property-button"
-            >
-              Claim property
-            </button>
+            {propertyData &&
+            propertyData.property &&
+            propertyData.property.owner ? (
+              <div className="property-owner-wrapper">
+                <p className="property-owner-text">
+                  This property is owned by:
+                </p>
+                <p className="property-owner-name">
+                  {`${propertyData.property.owner.username}`}
+                </p>
+              </div>
+            ) : (
+              <div>
+                <p className="claim-property-text">
+                  Do you own this property? Consider claiming.
+                </p>
+                <button
+                  onClick={() =>
+                    handleTabChange("ClaimPropertyTab", null, propertyData)
+                  }
+                  className="claim-property-button"
+                >
+                  Claim property
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -134,6 +167,16 @@ const SearchResult = ({ address, handleTabChange }) => {
                 Submit a review
               </button>
             </div>
+            <div className="submit-issue-button-wrapper">
+              <button
+                className="issue-btn"
+                onClick={() => setOpenIssueModal(true)}
+                type="submit"
+                variant="success"
+              >
+                Submit an issue
+              </button>
+            </div>
 
             <div className="image-wrapper">
               <img
@@ -152,6 +195,16 @@ const SearchResult = ({ address, handleTabChange }) => {
               address={address}
               onClose={() => setOpenModal(false)}
               onSubmit={handleReviewSubmit}
+            />
+            <IssueModal
+              open={openIssueModal}
+              propertyId={
+                propertyData && propertyData.property
+                  ? propertyData.property.id
+                  : null
+              }
+              address={address}
+              onClose={() => setOpenIssueModal(false)}
             />
             {}
           </div>
@@ -182,11 +235,33 @@ const SearchResult = ({ address, handleTabChange }) => {
               onClose={() => setOpenModal(false)}
               onSubmit={handleReviewSubmit}
             />
+            <IssueModal
+              open={openIssueModal}
+              propertyId={
+                propertyData && propertyData.property
+                  ? propertyData.property.id
+                  : null
+              }
+              address={address}
+              onClose={() => setOpenIssueModal(false)}
+              // onSubmit={}
+            />
             <ReviewList
               address={address}
               reviews={propertyReviews}
               onReviewRemoved={handleReviewRemoved}
             />
+            <div className="submit-issue-button-wrapper">
+              <button
+                className="issue-btn"
+                onClick={() => setOpenIssueModal(true)}
+                type="submit"
+                variant="success"
+              >
+                Submit an issue
+              </button>
+            </div>
+            <IssueList propertyData={propertyData} />
           </div>
         )}
       </div>

@@ -1,10 +1,12 @@
 const { Schema, model } = require("mongoose");
-const userSchema = require("./User");
-const propertySchema = require("./Property");
 const dateFormat = require("../utils/dateFormat");
 
 const issueSchema = new Schema({
   description: {
+    type: String,
+    required: true,
+  },
+  title: {
     type: String,
     required: true,
   },
@@ -18,25 +20,12 @@ const issueSchema = new Schema({
     ref: "User",
     required: true,
   },
-
-  property: {
-    type: Schema.Types.ObjectId,
-    ref: "Property",
+  propertyId: { type: Schema.Types.ObjectId, ref: "Property", required: true },
+  issueImage: {
+    type: String,
     required: true,
   },
-  status: {
-    type: String,
-    enum: ["open", "in_progress", "resolved"],
-    default: "open",
-  },
-  issueImg: {
-    type: String,
-  },
   landLordResponse: {
-    status: {
-      type: String,
-      enum: ["open", "in_progress", "resolved"],
-    },
     images: [String],
     message: String,
   },
@@ -49,4 +38,4 @@ issueSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = issueSchema;
+module.exports = model("Issue", issueSchema);
