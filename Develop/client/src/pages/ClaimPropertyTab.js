@@ -40,8 +40,9 @@ const ClaimPropertyTab = ({ propertyData }) => {
 
   async function uploadFile(file) {
     let storageAccountName = "ratearental";
+    console.log(process.env.REACT_APP_AZURE_BLOB_SAS_KEY);
     let sasToken =
-      "sv=2022-11-02&ss=b&srt=sco&sp=rwdlaciytfx&se=2023-05-05T17:26:06Z&st=2023-05-05T09:26:06Z&spr=https&sig=BSxAA8TnrphojgRBC7xc%2F8k5%2Bz7zewqpcbDyL7dHCas%3D";
+      "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-05-07T19:19:23Z&st=2023-05-07T11:19:23Z&spr=https&sig=4SPWxUftk1oddI%2BETrS4W4kZER9PEt6aFQeP%2BYJoj8g%3D";
     const blobService = new BlobServiceClient(
       `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
     );

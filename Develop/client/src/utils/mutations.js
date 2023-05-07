@@ -137,3 +137,57 @@ export const DELETE_AUTHORISE_QUEUE = gql`
     }
   }
 `;
+
+export const ADD_OWNER = gql`
+  mutation addOwner($propertyId: ID!, $userId: ID!) {
+    addOwner(propertyId: $propertyId, userId: $userId) {
+      address
+      id
+      owner {
+        id
+        username
+      }
+    }
+  }
+`;
+
+export const ADD_ISSUE = gql`
+  mutation Mutation(
+    $propertyId: ID!
+    $title: String!
+    $description: String!
+    $userId: ID!
+    $issueImage: String!
+  ) {
+    addIssue(
+      propertyId: $propertyId
+      title: $title
+      description: $description
+      userId: $userId
+      issueImage: $issueImage
+    ) {
+      description
+      id
+      issueImage
+      propertyId
+      reportedBy {
+        id
+        username
+      }
+      title
+    }
+  }
+`;
+
+export const LANDLORD_RESPONSE = gql`
+  mutation Mutation($issueId: ID!, $response: LandlordResponseInput!) {
+    addLandlordResponse(issueId: $issueId, response: $response) {
+      description
+      id
+      landLordResponse {
+        images
+        message
+      }
+    }
+  }
+`;

@@ -1,4 +1,11 @@
-const { User, Property, Review, Admin, AuthoriseQueue } = require("../models");
+const {
+  User,
+  Property,
+  Review,
+  Admin,
+  AuthoriseQueue,
+  Issue,
+} = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 const { v4: uuidv4 } = require("uuid");
@@ -30,15 +37,29 @@ const resolvers = {
       return User.findOne({ username });
     },
     property: async (_, { address }) => {
-      const property = await Property.findOne({ address }).populate({
-        path: "reviews",
-        populate: { path: "author" },
-      });
+      const property = await Property.findOne({ address })
+        .populate({
+          path: "reviews",
+          populate: { path: "author" },
+        })
+        .populate("owner")
+        .populate({
+          path: "issues",
+          populate: { path: "reportedBy" },
+        });
+
+      if (!property) {
+        throw new Error("Property not found");
+      }
+
       console.log("Fetched property:", property);
       return property;
     },
     review: async (parent, { reviewId }) => {
       return Review.findOne({ _id: reviewId });
+    },
+    properties: async () => {
+      return Property.find();
     },
   },
   Mutation: {
@@ -220,6 +241,104 @@ const resolvers = {
       } catch (error) {
         console.error("Error deleting AuthoriseQueue:", error);
         throw new Error("Something went wrong");
+      }
+    },
+    addOwner: async (_, { propertyId, userId }) => {
+      console.log("propertyId:", propertyId);
+      console.log("userId:", userId);
+
+      try {
+        const user = await User.findById(userId);
+        console.log("User:", user);
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        const property = await Property.findById(propertyId);
+        console.log("Property:", property);
+
+        if (!property) {
+          throw new Error("Property not found");
+        }
+
+        property.owner = userId;
+        const updatedProperty = await property.save();
+
+        // Populate the 'owner' field with the user information
+        const populatedProperty = await Property.populate(updatedProperty, {
+          path: "owner",
+        });
+
+        return populatedProperty;
+      } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+      }
+    },
+    addIssue: async (
+      _,
+      { title, description, propertyId, issueImage, userId },
+      context
+    ) => {
+      try {
+        if (!context.user) {
+          throw new Error("You must be logged in to perform this action.");
+        }
+
+        const newIssue = await Issue.create({
+          title,
+          description,
+          propertyId,
+          issueImage,
+          reportedBy: userId,
+        });
+
+        await Property.findByIdAndUpdate(propertyId, {
+          $addToSet: { issues: newIssue._id },
+        });
+
+        const populatedIssue = await Issue.findById(newIssue._id).populate(
+          "reportedBy"
+        );
+        return populatedIssue;
+      } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+      }
+    },
+    deleteAllIssues: async (_, __, context) => {
+      // Make sure the user is authenticated and authorized (if necessary)
+      try {
+        await Issue.deleteMany({});
+        return "All issues deleted successfully";
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to delete all issues.");
+      }
+    },
+    addLandlordResponse: async (_, { issueId, response }, context) => {
+      // if (!context.user) {
+      //   throw new Error("You must be logged in to perform this action.");
+      // }
+
+      try {
+        console.log("issueId:", issueId);
+        console.log("response:", response);
+
+        const issue = await Issue.findById(issueId);
+        if (!issue) {
+          throw new Error("Issue not found.");
+        }
+        issue.landLordResponse = response;
+        await issue.save();
+
+        console.log("Updated issue:", issue);
+
+        return issue;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to add landlord response.");
       }
     },
   },
