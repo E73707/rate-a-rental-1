@@ -1,4 +1,4 @@
-const { User, Property, Review, Admin, Todo } = require("../models");
+const { User, Property, Review, Admin, AuthoriseQueue } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 const { v4: uuidv4 } = require("uuid");
@@ -8,6 +8,9 @@ const resolvers = {
     id: (parent) => parent._id.toString(),
   },
   Query: {
+    getAuthoriseQueue: async () => {
+      return AuthoriseQueue.find({});
+    },
     getCurrentAdmin: async (parent, args, context) => {
       if (context.admin) {
         return Admin.findOne({ _id: context.admin._id });
@@ -185,28 +188,37 @@ const resolvers = {
       context
     ) => {
       try {
-        let todo = await Todo.findOne({});
-        if (!todo) {
-          todo = new Todo({
-            authoriseQueue: [],
-          });
-          await todo.save();
-        }
-        const newAuthoriseQueue = {
-          id: uuidv4(),
+        // Create a new AuthoriseQueue document
+        const newAuthoriseQueue = new AuthoriseQueue({
           fullName,
           email,
           phone,
           file,
           userId,
           propertyId,
-          dateOfSubmission: new Date(),
-        };
-        todo.authoriseQueue.push(newAuthoriseQueue);
-        const updatedTodo = await todo.save();
-        return newAuthoriseQueue;
+        });
+
+        // Save the new AuthoriseQueue document
+        const savedAuthoriseQueue = await newAuthoriseQueue.save();
+
+        // Return the saved document
+        return savedAuthoriseQueue;
       } catch (err) {
         console.log(err);
+        throw new Error("Something went wrong");
+      }
+    },
+    deleteAuthoriseQueue: async (parent, { id }, context) => {
+      try {
+        const deletedAuthoriseQueue = await AuthoriseQueue.findByIdAndDelete(
+          id
+        );
+        if (!deletedAuthoriseQueue) {
+          throw new Error("No AuthoriseQueue found with this id");
+        }
+        return deletedAuthoriseQueue;
+      } catch (error) {
+        console.error("Error deleting AuthoriseQueue:", error);
         throw new Error("Something went wrong");
       }
     },

@@ -4,5 +4,5 @@ module.exports = {
   Review: require("./Review"),
   Issue: require("./Issue"),
   Admin: require("./Admin"),
-  Todo: require("./Todo"),
+  AuthoriseQueue: require("./AuthoriseQueue"),
 };

@@ -31,18 +31,40 @@
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
 }
 
 .Todo-list {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 20px;
 }
 .Todo-list-number {
   width: auto;
-  text-align: center;
+  font-size: 14px;
+}
+.Todo-list-search-bar {
+  width: 200px;
+}
+.todo-list-card-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.todo-list-card-file-button {
+  width: 100%;
+}
+.todo-list-card-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.todo-list-card-button {
+  width: 50%;
+  padding: 5px;
 }
