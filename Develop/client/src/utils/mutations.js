@@ -129,3 +129,11 @@ export const ADD_AUTHORISE_QUEUE = gql`
     }
   }
 `;
+
+export const DELETE_AUTHORISE_QUEUE = gql`
+  mutation Mutation($deleteAuthoriseQueueId: ID!) {
+    deleteAuthoriseQueue(id: $deleteAuthoriseQueueId) {
+      id
+    }
+  }
+`;

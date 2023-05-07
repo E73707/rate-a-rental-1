@@ -13,7 +13,6 @@ const typeDefs = gql`
     id: ID!
     username: String!
     password: String!
-    todos: Todo
     email: String!
   }
   type Property {
@@ -76,11 +75,7 @@ const typeDefs = gql`
     propertyId: String!
     dateOfSubmission: String!
   }
-  type Todo {
-    id: ID!
-    authoriseQueue: [AuthoriseQueue!]!
-    todoList: [String!]!
-  }
+
   type Query {
     property(address: String!): Property
     issue(id: ID!): Issue
@@ -89,7 +84,7 @@ const typeDefs = gql`
     user(username: String!): User
     review(reviewId: ID!): Review
     getCurrentAdmin: Admin
-    todos: Todo
+    getAuthoriseQueue: [AuthoriseQueue]!
   }
   type Mutation {
     login(email: String!, password: String!): Auth
@@ -118,6 +113,7 @@ const typeDefs = gql`
       userId: String!
       propertyId: String!
     ): AuthoriseQueue
+    deleteAuthoriseQueue(id: ID!): AuthoriseQueue
   }
 `;
 module.exports = typeDefs;

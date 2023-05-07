@@ -43,20 +43,17 @@ export const GET_CURRENT_ADMIN = gql`
   }
 `;
 
-export const GET_TODOS = gql`
-  query todos {
-    todos {
-      authoriseQueue {
-        dateOfSubmission
-        email
-        file
-        fullName
-        id
-        phone
-        propertyId
-        userId
-      }
-      todoList
+export const GET_AUTHORISE_QUEUE = gql`
+  query Query {
+    getAuthoriseQueue {
+      dateOfSubmission
+      email
+      file
+      fullName
+      id
+      phone
+      propertyId
+      userId
     }
   }
 `;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const dateFormat = require("../utils/dateFormat");
 
 const AuthoriseQueueSchema = new mongoose.Schema({
   fullName: {
@@ -34,19 +35,6 @@ const AuthoriseQueueSchema = new mongoose.Schema({
   },
 });
 
-const TodoSchema = new mongoose.Schema({
-  authoriseQueue: [
-    {
-      type: AuthoriseQueueSchema,
-    },
-  ],
-  todoList: [
-    {
-      type: String,
-    },
-  ],
-});
+const AuthoriseQueue = mongoose.model("AuthoriseQueue", AuthoriseQueueSchema);
 
-const Todo = mongoose.model("Todo", TodoSchema);
-
-module.exports = Todo;
+module.exports = AuthoriseQueue;
