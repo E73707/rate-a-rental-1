@@ -112,28 +112,6 @@ function NavTabs({ currentTab, handleTabChange }) {
               Home
             </a>
           </div>
-          {/* <div className="nav-item">
-            <a
-              href="#Contact"
-              onClick={() => handleTabChange("Contact")}
-              className={
-                currentTab === "Contact" ? "nav-link active" : "nav-link"
-              }
-            >
-              Contact Me
-            </a>
-          </div>
-          <div className="nav-item">
-            <a
-              href="#portfolio"
-              onClick={() => handleTabChange("Portfolio")}
-              className={
-                currentTab === "Portfolio" ? "nav-link active" : "nav-link"
-              }
-            >
-              Portfolio
-            </a>
-          </div> */}
           {adminData ? (
             <div className="nav-item">
               <a
