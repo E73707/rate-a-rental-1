@@ -1,0 +1,21 @@
+.claim-property-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.claim-property-wrapper {
+  max-width: 1000px;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding-left: 100px;
+  margin-top: 40px;
+}
+.property-claim-input-wrapper {
+  padding: 5px;
+}
+
+.claim-property-header-wrapper {
+  padding-bottom: 10px;
+}
