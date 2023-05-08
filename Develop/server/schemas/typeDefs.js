@@ -87,6 +87,7 @@ const typeDefs = gql`
     issue(id: ID!): Issue
     me: User
     users: [User]
+    admins: [Admin]
     user(username: String!): User
     review(reviewId: ID!): Review
     getCurrentAdmin: Admin

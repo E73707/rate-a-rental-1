@@ -112,7 +112,7 @@ function NavTabs({ currentTab, handleTabChange }) {
               Home
             </a>
           </div>
-          <div className="nav-item">
+          {/* <div className="nav-item">
             <a
               href="#Contact"
               onClick={() => handleTabChange("Contact")}
@@ -133,7 +133,7 @@ function NavTabs({ currentTab, handleTabChange }) {
             >
               Portfolio
             </a>
-          </div>
+          </div> */}
           {adminData ? (
             <div className="nav-item">
               <a

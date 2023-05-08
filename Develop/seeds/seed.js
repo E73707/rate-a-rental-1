@@ -1,17 +1,30 @@
 const db = require("../server/config/connection");
-const { User } = require("../server/models");
+const { User, Admin } = require("../server/models");
+const bcrypt = require("bcrypt");
 
-const userData = require("./userSeeds.json");
+// const adminData = require("./adminSeeds.json");
 
 db.once("open", async () => {
-  try {
-    await User.deleteMany({});
-    const users = await User.insertMany(userData);
+  await Admin.deleteMany({});
+  const adminData = [
+    {
+      username: "admin1",
+      email: "admin1@gmail.com",
+      password: "admin1",
+    },
+    {
+      username: "admin2",
+      email: "admin2@gmail.com",
+      password: "admin2",
+    },
+  ];
 
-    console.log("Users seeded successfully");
-    process.exit(0);
-  } catch (error) {
-    console.error("Error seeding users:", error);
-    process.exit(1);
-  }
+  const hashedAdminsData = await Promise.all(
+    adminData.map(async (adminData) => {
+      const hashedPassword = await bcrypt.hash(adminData.password, 10);
+      return { ...adminData, password: hashedPassword };
+    })
+  );
+  await Admin.insertMany(hashedAdminsData);
+  console.log("successfully seeded admins");
 });

@@ -32,16 +32,26 @@ class AuthService {
     return localStorage.getItem("id_token");
   }
 
-  login(idToken) {
-    // Saves user token to localStorage
+  getRole() {
+    // Retrieves the user token from localStorage
+    return localStorage.getItem("role");
+  }
+
+  login(idToken, role) {
     localStorage.setItem("id_token", idToken);
+
+    if (role) {
+      localStorage.setItem("role", role);
+    } else {
+      localStorage.setItem("role", "user");
+    }
+
     window.location.assign("/");
   }
 
   logout() {
-    // Clear user token and profile data from localStorage
     localStorage.removeItem("id_token");
-    // this will reload the page and reset the state of the application
+    localStorage.removeItem("role");
     window.location.assign("/");
   }
 }

@@ -166,10 +166,8 @@ const SearchResult = ({ address, handleTabChange }) => {
               >
                 Submit a review
               </button>
-            </div>
-            <div className="submit-issue-button-wrapper">
               <button
-                className="issue-btn"
+                className="review-btn"
                 onClick={() => setOpenIssueModal(true)}
                 type="submit"
                 variant="success"
@@ -221,7 +219,16 @@ const SearchResult = ({ address, handleTabChange }) => {
                 >
                   Submit a review
                 </button>
+                <button
+                  className="review-btn"
+                  onClick={() => setOpenIssueModal(true)}
+                  type="submit"
+                  variant="success"
+                >
+                  Submit an issue
+                </button>
               </div>
+              <div className="submit-issue-button-wrapper"></div>
             </div>
 
             <Modal
@@ -251,16 +258,6 @@ const SearchResult = ({ address, handleTabChange }) => {
               reviews={propertyReviews}
               onReviewRemoved={handleReviewRemoved}
             />
-            <div className="submit-issue-button-wrapper">
-              <button
-                className="issue-btn"
-                onClick={() => setOpenIssueModal(true)}
-                type="submit"
-                variant="success"
-              >
-                Submit an issue
-              </button>
-            </div>
             <IssueList propertyData={propertyData} />
           </div>
         )}

@@ -9,6 +9,7 @@ import { GET_ME } from "../utils/queries";
 import { useQuery } from "@apollo/client";
 import { useMutation } from "@apollo/client";
 import { ADD_AUTHORISE_QUEUE } from "../utils/mutations";
+import "../styles/claimProperty.css";
 
 const ClaimPropertyTab = ({ propertyData }) => {
   const { loading, data } = useQuery(GET_ME);
@@ -42,7 +43,7 @@ const ClaimPropertyTab = ({ propertyData }) => {
     let storageAccountName = "ratearental";
     console.log(process.env.REACT_APP_AZURE_BLOB_SAS_KEY);
     let sasToken =
-      "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-05-07T19:19:23Z&st=2023-05-07T11:19:23Z&spr=https&sig=4SPWxUftk1oddI%2BETrS4W4kZER9PEt6aFQeP%2BYJoj8g%3D";
+      "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-06-08T07:49:51Z&st=2023-05-07T23:49:51Z&spr=https&sig=UE6Iu9xTbCmqTkz3%2B7wUsoPIqykT9TV3ALgjiX6r5s0%3D";
     const blobService = new BlobServiceClient(
       `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
     );
@@ -112,56 +113,71 @@ const ClaimPropertyTab = ({ propertyData }) => {
   return (
     <div className="claim-property-container">
       <div className="claim-property-wrapper">
-        <h2>Claim Property</h2>
+        <div className="claim-property-header-wrapper">
+          <h2>Claim Property</h2>
+        </div>
         <form onSubmit={handleSubmit}>
-          <div>
-            <p className="property-claim-full-name property-claim-label">
-              Full Name
-            </p>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              value={formValues.fullName}
-              onChange={handleChange}
-              required
-            />
+          <div className="property-claim-input-wrapper">
+            <div>
+              <p className="property-claim-full-name property-claim-label">
+                Full Name
+              </p>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={formValues.fullName}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
-          <div>
-            <p className="property-claim-email property-claim-label">Email</p>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formValues.email}
-              onChange={handleChange}
-              required
-            />
+
+          <div className="property-claim-input-wrapper">
+            <div>
+              <p className="property-claim-email property-claim-label">Email</p>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formValues.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
-          <div>
-            <p className="property-claim-phone property-claim-label">Phone</p>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formValues.phone}
-              onChange={handleChange}
-              required
-            />
+
+          <div className="property-claim-input-wrapper">
+            <div>
+              <p className="property-claim-phone property-claim-label">Phone</p>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formValues.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
-          <div>
-            <p className="property-claim-proof property-claim-label">
-              Proof of ownership
-            </p>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              onChange={handleChange}
-              required
-            />
+
+          <div className="property-claim-input-wrapper">
+            <div>
+              <p className="property-claim-proof property-claim-label">
+                Proof of ownership
+              </p>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
-          <button type="submit">Submit</button>
+          <div className="property-claim-input-wrapper">
+            <button type="submit">Submit</button>
+          </div>
         </form>
       </div>
     </div>

@@ -36,6 +36,9 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username });
     },
+    admins: async () => {
+      return Admin.find();
+    },
     property: async (_, { address }) => {
       const property = await Property.findOne({ address })
         .populate({
@@ -47,10 +50,6 @@ const resolvers = {
           path: "issues",
           populate: { path: "reportedBy" },
         });
-
-      if (!property) {
-        throw new Error("Property not found");
-      }
 
       console.log("Fetched property:", property);
       return property;
