@@ -22,7 +22,6 @@ import {
 } from "@react-google-maps/api";
 
 export default function Home({ handleTabChange }) {
-  const newsApiKey = process.env.REACT_APP_PROPERTY_NEWS_API_KEY;
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   console.log(apiKey);
   const [searchBox, setSearchBox] = useState(null);
