@@ -19,8 +19,7 @@ Technologies
 12. Heroku
 13. React Google Maps API
 14. JWT
-15. GraphQL
-16. Mongoose
+15. Mongoose
 
 ## Demo
 
