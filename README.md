@@ -23,7 +23,7 @@ Technologies
 
 ## Demo
 
-deployed application: https://protected-brook-03421.herokuapp.com/
+deployed application: https://protected-brook-03421.herokuapp.com/ (NO LONGER LIVE APPLICATION)
 
 Home page (screenshot of application has strange tint that cant be removed?)
 ![RRR-home](https://user-images.githubusercontent.com/94885681/237000750-d2914451-f15a-4598-ad90-8d166d4492c0.png)
